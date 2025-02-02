@@ -5,13 +5,13 @@
 #include <stdlib.h> 
 // All the elements to be used 
 // Declared here 
-#define WIDTH 40 
-#define HEIGHT 20 
-#define PACMAN 'C' 
-#define WALL '#' 
-#define FOOD '.' 
+#define WIDTH 60 
+#define HEIGHT 30 
+#define PACMAN '>' 
+#define WALL '|' 
+#define FOOD '$' 
 #define EMPTY ' ' 
-#define DEMON 'X' 
+#define DEMON '*' 
 // Global Variables are 
 // Declared here 
 int res = 0; 
@@ -45,11 +45,11 @@ void initialize()
 	} 
 	int val = 5; 
 	while (val--) { 
-		int row = (rand() % (HEIGHT + 1)); 
-		for (int j = 3; j < WIDTH - 3; j++) { 
-			if (board[row][j] != WALL 
-				&& board[row][j] != PACMAN) { 
-				board[row][j] = WALL; 
+		int column = (rand() % (WIDTH + 1)); 
+		for (int i = 3; i < HEIGHT - 3; i++) { 
+			if (board[i][column] != WALL 
+				&& board[i][column] != PACMAN) { 
+				board[i][column] = WALL; 
 			} 
 		} 
 	} 
@@ -64,13 +64,13 @@ void initialize()
 		} 
 	} 
 	// Cursor at Center 
-	pacman_x = WIDTH / 2; 
-	pacman_y = HEIGHT / 2; 
+	pacman_x = WIDTH /15; 
+	pacman_y = 18; 
 	board[pacman_y][pacman_x] = PACMAN; 
 	// Points Placed 
 	for (int i = 0; i < HEIGHT; i++) { 
 		for (int j = 0; j < WIDTH; j++) { 
-			if (i % 2 == 0 && j % 2 == 0 
+			if (i % 2 == 1 && j % 2 == 1 
 				&& board[i][j] != WALL 
 				&& board[i][j] != DEMON 
 				&& board[i][j] != PACMAN) { 
@@ -122,7 +122,7 @@ int main()
 { 
 	initialize(); 
 	char ch; 
-	food -= 35; 
+	food -= 42; 
 	int totalFood = food; 
 	// Instructions to Play 
 	printf(" Use buttons for w(up), a(left) , d(right) and "
