@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <unistd.h>
 // All the elements to be used
 // Declared here
 #define WIDTH 60
@@ -90,7 +91,7 @@ void initialize()
 		int j = (rand() % (WIDTH));
 		if (board[i][j].type != PACMAN && board[i][j].type != DEMON && board[i][j].type != ENEMY &&board[i][j].type !=WALL)
 		{
-			board[i][j].award = '@';
+			board[i][j].award = award ;
 			num--;
 		}
 	}
@@ -202,6 +203,22 @@ void MoveEnemy()
 		enemy_y++;
 	board[enemy_x][enemy_y].type = 'E';
 }
+//function for making the computer to play tha Game.
+void MoveComputer(char board[HEIGHT][WIDTH], int *x , int*y){
+	int direction= rand()%4;
+	board[*y][*x]=' ';
+	switch(direction){
+		case 0:if(*y>0)(*y)--;
+		break;
+		case 1: if(*y<HEIGHT-1)(*y)++;
+		break;
+		case 2:if(*x>0)(*x)--;
+		break;
+		case 3:if(*x<WIDTH-1)(*x)++;
+		break;
+	}
+	board[*y][*x]='C';
+}
 // Main Function
 int main()
 {
@@ -210,14 +227,17 @@ int main()
 	char ch;
 	food -= 28;
 	int totalFood = food;
+	int computer_x=WIDTH/2;
+	int computer_y=HEIGHT/2;
+	char board[HEIGHT][WIDTH];
 	// Instructions to Play
 	printf(" Use buttons for w(up), a(left) , d(right) and "
-		   "s(down)\nAlso, Press q for quit\n");
+		   "s(down)\nAlso, Press q for quit and press 'k' to watch the computer playing the Game.\n");
 	printf("Enter Y to continue: \n");
 	ch = getch();
-	if (ch != 'Y' && ch != 'y')
+	if (ch !='Y' && ch != 'y' && ch!='K' && ch!='k')
 	{
-		printf("Exit Game! ");
+		printf("Exit Game!.\n");
 		return 1;
 	}
 	while (1)
@@ -262,6 +282,11 @@ int main()
 			break;
 		case 'q':
 			printf("Game Over! Your Score: %d\n", score);
+            printf("your total award is: %d\n", award);
+			case 'k':
+			MoveComputer(board, &computer_x, &computer_y);
+			sleep(2);
+			break;
 			return 0;
 		}
 		MoveEnemy();
